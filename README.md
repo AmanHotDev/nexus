@@ -1,44 +1,13 @@
-अमन भाई, बिल्कुल प्रोफेशनल, बिना किसी मार्कडाउन (no bold, no italics, no lists hashes) के और पूरी तरह से सजे हुए टेक्स्ट फॉर्मेट में आपके **Nexus Chat** प्रोजेक्ट के लिए एकदम कड़क और प्रीमियम `README.md` कंटेंट तैयार है। इसमें बहुत सारे सटीक इमोजी, टेक्निकल बड़े वर्ड्स का हाइलाइट और वैसा ही स्पेसिंग आर्किटेक्चर है जैसा आपने माँगा था ताकि लिंक्स भी सही से ओपन हो सकें।
-
-इसे आप हूबहू अपनी `README.md` फ़ाइल में पेस्ट कर सकते हैं:
-
-# ================================================================================
 ⚡⚡⚡ NEXUS SYSTEMS TERMINAL ⚡⚡⚡
 
 Next-Generation Real-Time Instant Messaging Protocol & Global Cloud Node Corridor
-
-# ================================================================================
-PROJECT TITLE
-
-Nexus Chat
-
-# ================================================================================
-PROJECT ICON (EMOJI)
-
-💬
-
-# ================================================================================
 PROJECT DESCRIPTION
 
 Nexus is an ultra-premium, multi-page asynchronous communication terminal and digital socket hub. It is engineered to replace legacy static templates with active, breathing cloud infrastructure. The entire architecture is deeply optimized for mobile responsiveness and high-fidelity fluid user interactions, providing a secure real-time software experience directly inside the browser.
 
-# ================================================================================
 TECH STACK (SEPARATED BY COMMAS)
 
 HTML5, CSS3, JavaScript (ES6+), Firebase Authentication, Firebase Firestore
-
-# ================================================================================
-LIVE PREVIEW URL
-
-[https://amanhotdev.github.io/nexuschat/login.html](https://www.google.com/search?q=https://amanhotdev.github.io/nexuschat/login.html)
-
-# ================================================================================
-GITHUB REPOSITORY URL
-
-[https://github.com/amanhotdev/nexuschat](https://www.google.com/search?q=https://github.com/amanhotdev/nexuschat)
-
-# ================================================================================
-CORE INFRASTRUCTURE FEATURES
 
 📡 1. REAL-TIME CORE SOCKET INTEGRATION
 Unlike standard static frontend templates, Nexus is completely connected to live production Google Firebase Firestore clusters via secure database routing. The message transmission pipelines are 100% authentic and synchronize user interaction vectors instantly across distinct device terminals.
