@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nexus Chat | Modern Realtime Chat & File Share ⚡</title>
+    <style>
+        /* ================= 🌌 NEXUS LIGHT ULTRA-MODERN CORE STYLES ================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; scroll-behavior: smooth; }
+        
+        :root {
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            --primary: #00bcff;
+            --secondary: #00ffcc;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --card-border: rgba(255, 255, 255, 0.5);
+        }
+
+        body { background: var(--bg-gradient); color: var(--text-dark); min-height: 100vh; overflow-x: hidden; }
+
+        /* 📡 GLOWING CLEAN NAVBAR */
+        .navbar { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); width: 100%; padding: 20px 8%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(0, 188, 255, 0.1); }
+        .brand-name { font-size: 1.6rem; font-weight: 800; color: var(--text-dark); letter-spacing: -1px; }
+        .brand-name span { color: var(--primary); }
+
+        /* 🚀 HERO DYNAMIC LIGHT LAYOUT */
+        .hero-section { min-height: calc(85vh - 80px); display: flex; align-items: center; justify-content: space-between; padding: 40px 8%; gap: 50px; }
+        .hero-left { flex: 1.2; }
+        .hero-badge { display: inline-block; background: rgba(0, 188, 255, 0.08); color: var(--primary); padding: 6px 18px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; margin-bottom: 25px; border: 1px solid rgba(0, 188, 255, 0.15); }
+        .hero-title { font-size: 3.5rem; font-weight: 800; line-height: 1.15; color: var(--text-dark); }
+        .hero-title span { background: linear-gradient(135deg, var(--primary) 0%, #0077ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-subtitle { font-size: 1.15rem; color: var(--text-light); margin-top: 25px; line-height: 1.7; max-width: 580px; }
+
+        .hero-cta-group { display: flex; gap: 20px; margin-top: 40px; flex-wrap: wrap; }
+        .btn-launch { text-decoration: none; background: linear-gradient(135deg, var(--primary) 0%, #0077ff 100%); color: #ffffff; padding: 16px 35px; border-radius: 12px; font-size: 1.05rem; font-weight: 700; cursor: pointer; box-shadow: 0 10px 25px rgba(0, 188, 255, 0.25); transition: 0.3s ease; display: inline-block; text-align: center; }
+        .btn-launch:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0, 188, 255, 0.4); }
+        
+        /* Floating Glass App Mockup Graphic */
+        .hero-right { flex: 0.8; display: flex; justify-content: center; align-items: center; position: relative; }
+        .app-mockup { width: 320px; height: 420px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 24px; box-shadow: 0 30px 60px rgba(0,0,0,0.06); padding: 25px; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+        .mock-user { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+        .mock-avatar { width: 35px; height: 35px; background: #00bcff; border-radius: 50%; }
+        .mock-bubble { background: #e2e8f0; padding: 12px 16px; border-radius: 16px; font-size: 0.9rem; font-weight: 600; max-width: 80%; align-self: flex-start; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .mock-bubble.right { background: #00bcff; color: white; align-self: flex-end; }
+        .mock-file-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 10px; display: flex; align-items: center; gap: 10px; font-size: 0.85rem; font-weight: 700; margin-top: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+
+        /* 🧠 WHY CHOOSE US SECTION */
+        .info-container { padding: 90px 8%; background: #ffffff; position: relative; }
+        .section-title { font-size: 2.3rem; font-weight: 800; color: var(--text-dark); text-align: center; margin-bottom: 15px; }
+        .section-title span { color: var(--primary); }
+        .section-subtitle { text-align: center; color: var(--text-light); font-size: 1.05rem; margin-bottom: 60px; font-weight: 500; }
+
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 35px; max-width: 1200px; margin: 0 auto; }
+        .feature-card { background: var(--bg-gradient); border: 1px solid rgba(0,0,0,0.02); padding: 40px 30px; border-radius: 20px; transition: 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.02); }
+        .feature-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0, 188, 255, 0.08); border-color: rgba(0, 188, 255, 0.2); }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 20px; display: block; }
+        .feature-title { font-size: 1.3rem; color: var(--text-dark); margin-bottom: 12px; font-weight: 700; }
+        .feature-desc { color: var(--text-light); font-size: 0.95rem; line-height: 1.6; font-weight: 500; }
+
+        footer { width: 100%; text-align: center; padding: 35px; color: var(--text-light); font-size: 0.95rem; border-top: 1px solid #e4e8f0; background: #f8fafc; font-weight: 600; }
+
+        /* ================= 📱 PERFECT PHONE RESPONSIVE VIEWPORTS ================= */
+        @media (max-width: 968px) {
+            .navbar { padding: 15px 6%; }
+            .hero-section { padding: 40px 6%; flex-direction: column; text-align: center; justify-content: center; gap: 40px; }
+            .hero-subtitle { margin: 25px auto 0 auto; }
+            .hero-cta-group { justify-content: center; }
+            .hero-right { width: 100%; }
+        }
+        @media (max-width: 500px) {
+            .hero-title { font-size: 2.3rem; }
+            .hero-subtitle { font-size: 1rem; }
+            .app-mockup { width: 100%; max-width: 300px; height: 380px; }
+            .info-container { padding: 60px 5%; }
+            .section-title { font-size: 1.8rem; }
+            .features-grid { grid-template-columns: 1fr; gap: 20px; }
+            .feature-card { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 📡 MODERN CLEAN NAVBAR -->
+    <nav class="navbar">
+        <div class="brand-name">Nexus<span>Chat</span></div>
+    </nav>
+
+    <!-- 🚀 HERO SECTION -->
+    <section class="hero-section">
+        <div class="hero-left">
+            <div class="hero-badge">SECURE LIVE SERVER ACTIVE ⚡</div>
+            <h1 class="hero-title">Real-Time Chat & <span>Easy File Sharing</span></h1>
+            <p class="hero-subtitle">Experience a clean, fast, and simple messaging website. Connect instantly using your Google Account or email to send secure messages and files across any device.</p>
+            <div class="hero-cta-group">
+                <a href="login.html" class="btn-launch">Launch Chat Room 🚀</a>
+            </div>
+        </div>
+        
+        <!-- Interactive App Graphic UI Mockup -->
+        <div class="hero-right">
+            <div class="app-mockup">
+                <div>
+                    <div class="mock-user">
+                        <div class="mock-avatar"></div>
+                        <div style="font-weight: 800; font-size: 0.85rem;">Aman Dev</div>
+                    </div>
+                    <div style="display: flex; flex-direction: column;">
+                        <div class="mock-bubble">Hey! Is the real-time system working?</div>
+                        <div class="mock-bubble right">Yes! Messages are delivering instantly.</div>
+                        <div class="mock-file-card">
+                            <span>📄</span>
+                            <div>
+                                <div style="font-size: 0.8rem;">Project_Document.pdf</div>
+                                <div style="font-size: 0.7rem; color: var(--text-light);">4.2 MB • Click to Download</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 🧠 WHY WE ARE DIFFERENT SECTION -->
+    <section class="info-container">
+        <h2 class="section-title">Why Nexus Stands <span>Completely Apart</span></h2>
+        <p class="section-subtitle">A simple, modern, and high-performance chatting platform</p>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="feature-icon">🔑</span>
+                <h3 class="feature-title">Dual Login Options</h3>
+                <p class="feature-desc">Sign in seamlessly with your Google Account for quick 1-click login, or create a classic personal account with an email and password.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">⚡</span>
+                <h3 class="feature-title">Instant Live Sync</h3>
+                <p class="feature-desc">No manual page refreshes, no loading delays. Messages are transmitted and loaded on screens instantly as they are typed.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">📁</span>
+                <h3 class="feature-title">Seamless File Transfer</h3>
+                <p class="feature-desc">Share images, documents, and important files directly inside the chat window. Safe, clean, and easily downloadable storage.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 Nexus Systems. Engineered by AmanHotDev.
+    </footer>
+
+    <!-- 🔥 CORE JAVASCRIPT & NEW FIREBASE LOGIC HUB -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBdyln75P_abb8FBZb7J_1JNlDZ39k5oIQ",
+            authDomain: "nexus-27b3d.firebaseapp.com",
+            projectId: "nexus-27b3d",
+            storageBucket: "nexus-27b3d.firebasestorage.app",
+            messagingSenderId: "567788799617",
+            appId: "1:567788799617:web:352644dadfbde5732eaf80"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+    </script>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nexus Chat | Login 🔑</title>
+    <style>
+        /* ================= 🌌 NEXUS CHAT LOGIN MODERN LIGHT THEME ================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        
+        :root {
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            --primary: #00bcff;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border-color: rgba(0, 188, 255, 0.15);
+        }
+
+        body { background: var(--bg-gradient); color: var(--text-dark); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+
+        .chat-nav { background: #ffffff; padding: 15px 6%; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+        .chat-nav-brand { font-weight: 800; font-size: 1.3rem; text-decoration: none; color: var(--text-dark); }
+        .chat-nav-brand span { color: var(--primary); }
+        .btn-back-home { text-decoration: none; color: var(--text-light); font-weight: 700; font-size: 0.95rem; transition: 0.3s; display: flex; align-items: center; gap: 5px; }
+        .btn-back-home:hover { color: var(--primary); }
+
+        .auth-container { flex: 1; display: flex; justify-content: center; align-items: center; padding: 30px 5%; }
+        .auth-card { background: var(--card-bg); border: 1px solid var(--border-color); padding: 40px 30px; border-radius: 24px; max-width: 420px; width: 100%; box-shadow: 0 20px 40px rgba(0,0,0,0.05); text-align: center; }
+        .auth-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 8px; }
+        .auth-subtitle { color: var(--text-light); font-size: 0.9rem; margin-bottom: 30px; font-weight: 600; }
+
+        .input-group { margin-bottom: 18px; text-align: left; }
+        .input-group label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--text-light); margin-bottom: 6px; }
+        
+        .password-wrapper { position: relative; display: flex; align-items: center; width: 100%; }
+        .password-wrapper input { width: 100%; background: #ffffff; border: 1px solid #e2e8f0; padding: 13px 50px 13px 16px; border-radius: 10px; color: var(--text-dark); font-size: 0.95rem; outline: none; transition: 0.2s; }
+        .password-wrapper input:focus { border-color: var(--primary); box-shadow: 0 0 8px rgba(0, 188, 255, 0.1); }
+        
+        .input-group input:not([type="password"]) { width: 100%; background: #ffffff; border: 1px solid #e2e8f0; padding: 13px 16px; border-radius: 10px; color: var(--text-dark); font-size: 0.95rem; outline: none; }
+        .input-group input:not([type="password"]):focus { border-color: var(--primary); box-shadow: 0 0 8px rgba(0, 188, 255, 0.1); }
+
+        .eye-icon { position: absolute; right: 16px; cursor: pointer; color: var(--text-light); font-size: 1.1rem; user-select: none; }
+        .eye-icon:hover { color: var(--primary); }
+        
+        #confirmPasswordGroup { display: none; }
+
+        .forgot-link-container { text-align: right; margin-top: 5px; margin-bottom: 20px; }
+        .btn-forgot { font-size: 0.82rem; color: var(--primary); cursor: pointer; font-weight: 600; text-decoration: none; }
+        .btn-forgot:hover { text-decoration: underline; }
+
+        .btn-submit-auth { width: 100%; background: linear-gradient(135deg, var(--primary) 0%, #0077ff 100%); color: white; border: none; padding: 14px; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 6px 15px rgba(0, 188, 255, 0.2); transition: 0.2s; }
+        .btn-submit-auth:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(0, 188, 255, 0.35); }
+        
+        .auth-toggle-text { margin-top: 20px; font-size: 0.88rem; color: var(--text-light); font-weight: 600; }
+        .auth-toggle-text span { color: var(--primary); cursor: pointer; text-decoration: underline; }
+
+        /* ================= 🚨 UPGRADED: TOP DROP CUSTOM ALERT MODAL ================= */
+        .custom-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.3); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: flex-start; padding-top: 50px; z-index: 2000; }
+        .custom-modal { background: #ffffff; border: 1px solid var(--border-color); border-radius: 20px; padding: 25px 30px; max-width: 425px; width: 90%; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12); text-align: center; transform: translateY(-150px); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .custom-modal.active { transform: translateY(0); }
+        .modal-header-layout { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px; }
+        .modal-icon { font-size: 1.8rem; }
+        .modal-title { font-size: 1.25rem; font-weight: 800; color: var(--text-dark); }
+        .modal-msg { font-size: 0.95rem; color: var(--text-light); line-height: 1.5; margin-bottom: 20px; word-break: break-word; }
+        .btn-modal-close { background: var(--primary); color: white; border: none; padding: 10px 25px; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.2s; width: 100%; }
+        .btn-modal-close:hover { background: #0077ff; }
+
+        footer { width: 100%; text-align: center; padding: 25px; color: var(--text-light); font-size: 0.9rem; border-top: 1px solid #e4e8f0; background: #f8fafc; font-weight: 600; margin-top: auto; }
+        @media (max-width: 500px) { .auth-card { padding: 30px 20px; border: none; box-shadow: none; background: transparent; } }
+    </style>
+</head>
+<body>
+
+    <nav class="chat-nav">
+        <a href="index.html" class="btn-back-home">← Home</a>
+        <div class="chat-nav-brand">Nexus<span>Chat</span></div>
+        <div style="width: 50px;"></div>
+    </nav>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <h2 class="auth-title" id="authFormTitle">Welcome Back</h2>
+            <p class="auth-subtitle" id="authFormSubtitle">Login to enter your chat room</p>
+
+            <form id="emailAuthForm">
+                <div class="input-group">
+                    <label>EMAIL ADDRESS</label>
+                    <input type="email" id="authEmail" placeholder="example@email.com" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>PASSWORD</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="authPassword" placeholder="••••••••" required>
+                        <span class="eye-icon" onclick="togglePasswordVisibility('authPassword', this)">👁</span>
+                    </div>
+                </div>
+                
+                <!-- CONFIRM PASSWORD (SIGNUP MODE) -->
+                <div class="input-group" id="confirmPasswordGroup">
+                    <label>CONFIRM PASSWORD</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="authConfirmPassword" placeholder="••••••••">
+                        <span class="eye-icon" onclick="togglePasswordVisibility('authConfirmPassword', this)">👁</span>
+                    </div>
+                </div>
+
+                <div class="forgot-link-container" id="forgotLinkBox">
+                    <span class="btn-forgot" onclick="forgotPasswordNode()">Forgot Password?</span>
+                </div>
+
+                <button type="submit" class="btn-submit-auth" id="authSubmitBtn">Login to Account 🚀</button>
+            </form>
+
+            <p class="auth-toggle-text" id="authToggleContainer">
+                Don't have an account? <span onclick="toggleAuthMode(true)">Create Account</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- 🚨 UPGRADED: TOP DROP RECTANGLE NOTIFICATION POPUP -->
+    <div class="custom-modal-overlay" id="alertModalOverlay">
+        <div class="custom-modal" id="alertModal">
+            <div class="modal-header-layout">
+                <div class="modal-icon" id="customModalIcon">💡</div>
+                <div class="modal-title" id="customModalTitle">Notification</div>
+            </div>
+            <div class="modal-msg" id="customModalMessage">System Message Corridor.</div>
+            <button class="btn-modal-close" onclick="closeCustomAlert()">Got It</button>
+        </div>
+    </div>
+
+    <footer>&copy; 2026 Nexus Systems. Engineered by AmanHotDev.</footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBdyln75P_abb8FBZb7J_1JNlDZ39k5oIQ",
+            authDomain: "nexus-27b3d.firebaseapp.com",
+            projectId: "nexus-27b3d",
+            storageBucket: "nexus-27b3d.firebasestorage.app",
+            messagingSenderId: "567788799617",
+            appId: "1:567788799617:web:352644dadfbde5732eaf80"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        let isSignUpMode = false;
+
+        // 🚨 TOP-DROPPING DYNAMIC ALERT POPUP ENGINE
+        function showCustomAlert(title, message, icon = "💡") {
+            document.getElementById('customModalTitle').innerText = title;
+            document.getElementById('customModalMessage').innerText = message;
+            document.getElementById('customModalIcon').innerText = icon;
+            
+            const overlay = document.getElementById('alertModalOverlay');
+            overlay.style.display = "flex";
+            setTimeout(() => document.getElementById('alertModal').classList.add('active'), 10);
+        }
+
+        function closeCustomAlert() {
+            document.getElementById('alertModal').classList.remove('active');
+            setTimeout(() => document.getElementById('alertModalOverlay').style.display = "none", 300);
+        }
+
+        // 👁️ SHOW/HIDE PASSWORD SYSTEM
+        function togglePasswordVisibility(inputId, eyeElement) {
+            const inputField = document.getElementById(inputId);
+            if (inputField.type === "password") {
+                inputField.type = "text";
+                eyeElement.innerText = "⌣";
+            } else {
+                inputField.type = "password";
+                eyeElement.innerText = "👁";
+            }
+        }
+
+        // 🔒 FORM SWITCH MODAL
+        function toggleAuthMode(signUp) {
+            isSignUpMode = signUp;
+            const confirmGroup = document.getElementById('confirmPasswordGroup');
+            const confirmInput = document.getElementById('authConfirmPassword');
+            const forgotBox = document.getElementById('forgotLinkBox');
+
+            if (signUp) {
+                document.getElementById('authFormTitle').innerText = "Create Account";
+                document.getElementById('authFormSubtitle').innerText = "Sign up to start chatting with friends";
+                document.getElementById('authSubmitBtn').innerText = "Create Free Account ✨";
+                confirmGroup.style.display = "block";
+                confirmInput.required = true;
+                forgotBox.style.display = "none";
+                document.getElementById('authToggleContainer').innerHTML = `Already have an account? <span onclick="toggleAuthMode(false)">Login Here</span>`;
+            } else {
+                document.getElementById('authFormTitle').innerText = "Welcome Back";
+                document.getElementById('authFormSubtitle').innerText = "Login to enter your chat room";
+                document.getElementById('authSubmitBtn').innerText = "Login to Account 🚀";
+                confirmGroup.style.display = "none";
+                confirmInput.required = false;
+                confirmInput.value = "";
+                forgotBox.style.display = "block";
+                document.getElementById('authToggleContainer').innerHTML = `Don't have an account? <span onclick="toggleAuthMode(true)">Create Account</span>`;
+            }
+        }
+
+        // Email Submission Process Core
+        document.getElementById('emailAuthForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
+
+            if (isSignUpMode) {
+                const confirmPassword = document.getElementById('authConfirmPassword').value;
+                if(password !== confirmPassword) {
+                    showCustomAlert("Validation Error", "Passwords do not match! Please check again.", "❌");
+                    return;
+                }
+                auth.createUserWithEmailAndPassword(email, password)
+                    .then(() => { window.location.href = "nexuschat.html"; })
+                    .catch(err => showCustomAlert("Authentication Error", err.message, "❌"));
+            } else {
+                auth.signInWithEmailAndPassword(email, password)
+                    .then(() => { window.location.href = "nexuschat.html"; })
+                    .catch(err => showCustomAlert("Login Failed", err.message, "❌"));
+            }
+        });
+
+        // Forgot Password Dynamic Mail Dispatcher
+        function forgotPasswordNode() {
+            const email = document.getElementById('authEmail').value.trim();
+            if(email === "") {
+                showCustomAlert("Action Required", "Please enter your Email Address in the field above first, then click Forgot Password.", "✉️");
+                return;
+            }
+            auth.sendPasswordResetEmail(email)
+                .then(() => {
+                    showCustomAlert("Email Transmitted", `Password reset link sent successfully to ${email}. Check your inbox or spam folder.`, "📩");
+                })
+                .catch(err => showCustomAlert("Request Aborted", err.message, "❌"));
+        }
+
+        // Core Sync State Routing
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                window.location.href = "nexuschat.html";
+            }
+        });
+    </script>
+</body>
+</html>

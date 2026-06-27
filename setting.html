@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nexus Chat | Settings ⚙️</title>
+    <style>
+        /* ================= 🌌 NEXUS PREMIUM SETTINGS LIGHT MODERN THEME ================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        
+        :root {
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            --primary: #00bcff;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border-color: rgba(0, 188, 255, 0.15);
+            --danger-red: #ff4a4a;
+        }
+
+        body { background: var(--bg-gradient); color: var(--text-dark); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+
+        .chat-nav { background: #ffffff; padding: 15px 6%; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+        .chat-nav-brand { font-weight: 800; font-size: 1.3rem; text-decoration: none; color: var(--text-dark); }
+        .chat-nav-brand span { color: var(--primary); }
+        .btn-back-chat { text-decoration: none; color: var(--text-light); font-weight: 700; font-size: 0.95rem; transition: 0.3s; display: flex; align-items: center; gap: 5px; }
+        .btn-back-chat:hover { color: var(--primary); }
+
+        .settings-container { flex: 1; display: flex; justify-content: center; align-items: center; padding: 40px 5%; }
+        .settings-card { background: var(--card-bg); border: 1px solid var(--border-color); padding: 40px 30px; border-radius: 24px; max-width: 480px; width: 100%; box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        
+        .profile-section { text-align: center; margin-bottom: 30px; }
+        .large-avatar { width: 70px; height: 70px; border-radius: 50%; background: var(--primary); color: white; display: flex; justify-content: center; align-items: center; font-weight: 800; font-size: 2rem; margin: 0 auto 12px auto; box-shadow: 0 8px 16px rgba(0,188,255,0.2); }
+        .user-email-display { font-size: 0.88rem; color: var(--text-light); font-weight: 600; margin-top: 2px; }
+
+        .section-divider { margin: 25px 0 15px 0; font-size: 0.8rem; font-weight: 800; color: var(--primary); letter-spacing: 1px; text-transform: uppercase; text-align: left; border-bottom: 1px dashed var(--border-color); padding-bottom: 5px; }
+
+        .input-group { margin-bottom: 16px; text-align: left; }
+        .input-group label { display: block; font-size: 0.78rem; font-weight: 700; color: var(--text-light); margin-bottom: 6px; }
+        .input-group input { width: 100%; background: #ffffff; border: 1px solid #e2e8f0; padding: 12px 14px; border-radius: 10px; color: var(--text-dark); font-size: 0.95rem; outline: none; transition: 0.2s; }
+        .input-group input:focus { border-color: var(--primary); box-shadow: 0 0 8px rgba(0, 188, 255, 0.1); }
+        
+        .btn-submit-settings { width: 100%; background: linear-gradient(135deg, var(--primary) 0%, #0077ff 100%); color: white; border: none; padding: 13px; border-radius: 10px; font-size: 0.95rem; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(0, 188, 255, 0.2); transition: 0.2s; margin-top: 5px; }
+        .btn-submit-settings:hover { transform: translateY(-1px); box-shadow: 0 6px 15px rgba(0, 188, 255, 0.3); }
+
+        .forgot-link-box { text-align: right; margin-top: 6px; }
+        .btn-forgot { font-size: 0.8rem; color: var(--primary); cursor: pointer; font-weight: 600; text-decoration: none; }
+        .btn-forgot:hover { text-decoration: underline; }
+
+        /* ⭕ LOGOUT BUTTON WITH NEW NEON POWER OFF STYLE */
+        .btn-logout-danger { width: 100%; background: #ffffff; color: var(--danger-red); border: 1px solid rgba(255, 74, 74, 0.2); padding: 13px; border-radius: 10px; font-size: 0.95rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; margin-top: 15px; }
+        .btn-logout-danger:hover { background: #fff5f5; border-color: var(--danger-red); box-shadow: 0 4px 12px rgba(255, 74, 74, 0.1); }
+        .power-icon { font-size: 1.1rem; font-weight: bold; }
+
+        /* ================= 🚨 TOP DROP CUSTOM ALERTS ================= */
+        .custom-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.3); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: flex-start; padding-top: 50px; z-index: 2000; }
+        .custom-modal { background: #ffffff; border: 1px solid var(--border-color); border-radius: 20px; padding: 25px 30px; max-width: 425px; width: 90%; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12); text-align: center; transform: translateY(-150px); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .custom-modal.active { transform: translateY(0); }
+        .modal-header-layout { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px; }
+        .modal-icon { font-size: 1.8rem; }
+        .modal-title { font-size: 1.25rem; font-weight: 800; color: var(--text-dark); }
+        .modal-msg { font-size: 0.95rem; color: var(--text-light); line-height: 1.5; margin-bottom: 20px; word-break: break-word; }
+        .btn-modal-close { background: var(--primary); color: white; border: none; padding: 10px 25px; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.2s; width: 100%; }
+        .btn-modal-close:hover { background: #0077ff; }
+
+        footer { width: 100%; text-align: center; padding: 25px; color: var(--text-light); font-size: 0.9rem; border-top: 1px solid #e4e8f0; background: #f8fafc; font-weight: 600; margin-top: auto; }
+    </style>
+</head>
+<body>
+
+    <nav class="chat-nav">
+        <a href="nexuschat.html" class="btn-back-chat">← Back to Chat</a>
+        <div class="chat-nav-brand">Nexus<span>Chat</span></div>
+        <div style="width: 90px;"></div>
+    </nav>
+
+    <div class="settings-container">
+        <div class="settings-card">
+            
+            <!-- Profile Overview Header -->
+            <div class="profile-section">
+                <div class="large-avatar" id="settingsAvatar">N</div>
+                <h2 style="font-weight: 800; font-size: 1.4rem;" id="settingsHeadingName">Loading...</h2>
+                <div class="user-email-display" id="settingsEmail">user@email.com</div>
+            </div>
+
+            <!-- FORM 1: PROFILE INFO UPDATE -->
+            <form id="profileUpdateForm">
+                <div class="section-divider">Profile Details</div>
+                <div class="input-group">
+                    <label>DISPLAY NAME</label>
+                    <input type="text" id="profileNameInput" required>
+                </div>
+                <div class="input-group">
+                    <label>ABOUT / STATUS</label>
+                    <input type="text" id="profileStatusInput" required>
+                </div>
+                <button type="submit" class="btn-submit-settings">Save Profile Parameters ✅</button>
+            </form>
+
+            <!-- FORM 2: LIVE PASSWORD SECURITY CHANGE -->
+            <form id="passwordChangeForm">
+                <div class="section-divider">Security Gate</div>
+                <div class="input-group">
+                    <label>CURRENT PASSWORD</label>
+                    <input type="password" id="currentPasswordInput" placeholder="••••••••" required>
+                </div>
+                <div class="input-group">
+                    <label>NEW PASSWORD</label>
+                    <input type="password" id="newPasswordInput" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-submit-settings">Update Password Key 🔑</button>
+                
+                <!-- Forget Link Mechanism Included -->
+                <div class="forgot-link-box">
+                    <span class="btn-forgot" onclick="triggerForgetPasswordMail()">Forget Password via Email? 📩</span>
+                </div>
+            </form>
+
+            <!-- ⭕ NEW DESIGNED POWER OFF LOGOUT BUTTON -->
+            <div class="section-divider">Session Control</div>
+            <button class="btn-logout-danger" onclick="logoutSessionNode()">
+                <span class="power-icon">⭕</span> Sign Out From Nexus
+            </button>
+
+        </div>
+    </div>
+
+    <!-- 🚨 TOP-DROPPING DYNAMIC ALERT POPUP -->
+    <div class="custom-modal-overlay" id="alertModalOverlay">
+        <div class="custom-modal" id="alertModal">
+            <div class="modal-header-layout">
+                <div class="modal-icon" id="customModalIcon">💡</div>
+                <div class="modal-title" id="customModalTitle">Notification</div>
+            </div>
+            <div class="modal-msg" id="customModalMessage">System logs configuration Corridor.</div>
+            <button class="btn-modal-close" onclick="closeCustomAlert()">Got It</button>
+        </div>
+    </div>
+
+    <footer>&copy; 2026 Nexus Systems. Engineered by AmanHotDev.</footer>
+
+    <!-- 🧠 FIREBASE CORE ENGINE COMPAT PACKETS -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBdyln75P_abb8FBZb7J_1JNlDZ39k5oIQ",
+            authDomain: "nexus-27b3d.firebaseapp.com",
+            projectId: "nexus-27b3d",
+            storageBucket: "nexus-27b3d.firebasestorage.app",
+            messagingSenderId: "567788799617",
+            appId: "1:567788799617:web:352644dadfbde5732eaf80"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        let currentUser = null;
+
+        // 🚨 TOP TRIGGER DROP ALERT ENGINE
+        function showCustomAlert(title, message, icon = "💡") {
+            document.getElementById('customModalTitle').innerText = title;
+            document.getElementById('customModalMessage').innerText = message;
+            document.getElementById('customModalIcon').innerText = icon;
+            
+            const overlay = document.getElementById('alertModalOverlay');
+            overlay.style.display = "flex";
+            setTimeout(() => document.getElementById('alertModal').classList.add('active'), 10);
+        }
+
+        function closeCustomAlert() {
+            document.getElementById('alertModal').classList.remove('active');
+            setTimeout(() => document.getElementById('alertModalOverlay').style.display = "none", 200);
+        }
+
+        // Auth Lifecycle State Route Guard
+        auth.onAuthStateChanged((user) => {
+            if (!user) {
+                window.location.href = "login.html";
+            } else {
+                currentUser = user;
+                loadAndSyncUserData();
+            }
+        });
+
+        // 📡 Load Existing Details into Form Fields Live
+        async function loadAndSyncUserData() {
+            document.getElementById('settingsEmail').innerText = currentUser.email;
+            
+            const userRef = db.collection("users").doc(currentUser.uid);
+            userRef.onSnapshot((snapshot) => {
+                if (snapshot.exists) {
+                    const data = snapshot.data();
+                    document.getElementById('settingsHeadingName').innerText = data.name;
+                    document.getElementById('profileNameInput').value = data.name;
+                    document.getElementById('profileStatusInput').value = data.status;
+                    document.getElementById('settingsAvatar').innerText = data.name.charAt(0).toUpperCase();
+                }
+            });
+        }
+
+        // ✏️ Action 1: Update Profile Name & Status
+        document.getElementById('profileUpdateForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const name = document.getElementById('profileNameInput').value.trim();
+            const status = document.getElementById('profileStatusInput').value.trim();
+
+            if (name === "" || status === "") return;
+
+            try {
+                await db.collection("users").doc(currentUser.uid).update({ name: name, status: status });
+                showCustomAlert("Success", "Profile criteria updated synchronously across live streams.", "✅");
+            } catch (err) {
+                showCustomAlert("Error", err.message, "❌");
+            }
+        });
+
+        // 🔐 Action 2: Change Password Safely Using In-App Credentials
+        document.getElementById('passwordChangeForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const currentPassword = document.getElementById('currentPasswordInput').value;
+            const newPassword = document.getElementById('newPasswordInput').value;
+
+            // री-ऑथेंटिकेशन लॉजिक (सुरक्षा के लिए कि पुराना पासवर्ड सही है या नहीं)
+            const credential = firebase.auth.EmailAuthProvider.credential(currentUser.email, currentPassword);
+
+            try {
+                await currentUser.reauthenticateWithCredential(credential);
+                await currentUser.updatePassword(newPassword);
+                
+                document.getElementById('currentPasswordInput').value = "";
+                document.getElementById('newPasswordInput').value = "";
+                showCustomAlert("Password Updated", "Your encryption security key has been modified successfully.", "🔑");
+            } catch (err) {
+                showCustomAlert("Security Check Failed", "Incorrect current password. Re-authorization aborted.", "❌");
+            }
+        });
+
+        // 📩 Action 3: Trigger Forget Password Mail Link Route
+        function triggerForgetPasswordMail() {
+            auth.sendPasswordResetEmail(currentUser.email)
+                .then(() => {
+                    showCustomAlert("Link Dispatched", `A secure configuration link has been transmitted directly to ${currentUser.email}. Check spam or inbox folder.`, "📩");
+                })
+                .catch(err => showCustomAlert("Error Link", err.message, "❌"));
+        }
+
+        // ⭕ Logout Node Session Trigger
+        function logoutSessionNode() {
+            auth.signOut().then(() => {
+                window.location.href = "login.html";
+            });
+        }
+    </script>
+</body>
+</html>

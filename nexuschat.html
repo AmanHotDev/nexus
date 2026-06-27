@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nexus Chat | Corridor 💬</title>
+    <style>
+        /* ================= 🎨 ULTRA-PREMIUM WHATSAPP/TELEGRAM LIGHT THEME ================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        
+        :root {
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            --primary: #00bcff;
+            --primary-glow: rgba(0, 188, 255, 0.2);
+            --electric-cyan: #00ffcc;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --border-color: #e2e8f0;
+            --chat-bg: #f8fafc;
+        }
+
+        body { background: var(--bg-gradient); color: var(--text-dark); height: 100vh; display: flex; overflow: hidden; }
+
+        .app-container { display: flex; width: 100%; height: 100vh; background: #ffffff; position: relative; }
+
+        /* ================= 👥 LEFT SIDEBAR: CHAT & CONTACTS LIST ================= */
+        .sidebar { width: 350px; height: 100%; border-right: 1px solid var(--border-color); display: flex; flex-direction: column; background: #ffffff; z-index: 10; transition: 0.3s ease; }
+        
+        .sidebar-header { padding: 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: #ffffff; }
+        .user-profile-trigger { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .user-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--primary); color: white; display: flex; justify-content: center; align-items: center; font-weight: 700; font-size: 1.1rem; border: 2px solid #ffffff; box-shadow: 0 4px 10px rgba(0,188,255,0.2); object-fit: cover; }
+        
+        .sidebar-actions { display: flex; gap: 8px; }
+        .circle-btn { width: 34px; height: 36px; border-radius: 50%; background: #f1f5f9; border: none; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 1rem; transition: 0.2s; text-decoration: none; color: inherit; }
+        .circle-btn:hover { background: var(--primary-glow); color: var(--primary); }
+
+        .search-box-container { padding: 12px 20px; background: #ffffff; border-bottom: 1px solid var(--border-color); }
+        .search-input { width: 100%; padding: 10px 16px; border-radius: 10px; border: 1px solid var(--border-color); background: #f8fafc; outline: none; font-size: 0.9rem; }
+
+        .chat-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+        .chat-item { display: flex; align-items: center; padding: 15px 20px; gap: 15px; cursor: pointer; border-bottom: 1px solid #f8fafc; transition: 0.2s; }
+        .chat-item:hover, .chat-item.active { background: #f0f7ff; }
+        .chat-item-details { flex: 1; min-width: 0; }
+        .chat-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+        .chat-item-name { font-weight: 700; font-size: 0.95rem; }
+        .chat-item-msg { font-size: 0.85rem; color: var(--text-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        /* ================= 💬 RIGHT PANEL: ACTIVE CHAT SCREEN ================= */
+        .main-chat { flex: 1; height: 100%; display: flex; flex-direction: column; background: var(--chat-bg); position: relative; }
+        
+        .chat-blank-state { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #f8fafc; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; z-index: 5; }
+        .blank-icon { font-size: 4rem; margin-bottom: 15px; animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        .chat-header { padding: 15px 25px; background: #ffffff; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 15px; }
+        .back-arrow { font-size: 1.3rem; cursor: pointer; display: none; color: var(--text-light); }
+        .active-user-info { flex: 1; min-width: 0; }
+        .active-user-name { font-weight: 700; font-size: 1rem; }
+        .active-user-status { font-size: 0.8rem; color: var(--text-light); }
+
+        .chat-messages-area { flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: #f1f5f9; }
+        
+        .msg-container { display: flex; flex-direction: column; max-width: 65%; position: relative; margin-bottom: 2px; }
+        .msg-container.incoming { align-self: flex-start; }
+        .msg-container.outgoing { align-self: flex-end; align-items: flex-end; }
+        
+        .msg-bubble { background: #ffffff; padding: 10px 16px; border-radius: 16px 16px 16px 4px; font-size: 0.95rem; line-height: 1.4; box-shadow: 0 2px 5px rgba(15,23,42,0.03); color: var(--text-dark); word-break: break-word; }
+        .msg-container.outgoing .msg-bubble { background: linear-gradient(135deg, var(--primary) 0%, #0077ff 100%); color: white; border-radius: 16px 16px 4px 16px; padding-bottom: 22px; padding-right: 20px; min-width: 80px; }
+        
+        .msg-meta { display: flex; align-items: center; gap: 5px; margin-top: 4px; font-size: 0.72rem; color: var(--text-light); }
+        .msg-container.outgoing .msg-meta { color: rgba(255, 255, 255, 0.85); position: absolute; bottom: 4px; right: 12px; }
+        
+        .nexus-ticks { display: inline-flex; align-items: center; font-weight: 900; letter-spacing: -3px; margin-left: 2px; font-size: 0.85rem; color: #e2e8f0; }
+        .nexus-ticks.delivered { color: var(--electric-cyan); text-shadow: 0 0 6px var(--electric-cyan); }
+
+        .file-attachment-bubble { display: flex; align-items: center; gap: 10px; background: rgba(15,23,42,0.05); padding: 10px; border-radius: 10px; text-decoration: none; color: inherit; font-weight: 700; font-size: 0.85rem; margin-top: 5px; }
+        .msg-container.outgoing .file-attachment-bubble { background: rgba(255,255,255,0.15); color: white; }
+
+        /* 📱 INPUT DOCK BAR & MENU ATTACHMENT */
+        .chat-input-dock { background: #ffffff; padding: 15px 25px; border-top: 1px solid var(--border-color); display: flex; align-items: center; gap: 15px; position: relative; }
+        .file-menu-trigger { font-size: 1.4rem; cursor: pointer; color: var(--text-light); transition: 0.2s; user-select: none; }
+        .file-menu-trigger:hover { color: var(--primary); }
+        
+        /* ATTACHMENT OPTION DIALOG BOX */
+        .attachment-options-box { position: absolute; bottom: 75px; left: 25px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); display: none; flex-direction: column; padding: 6px; z-index: 100; min-width: 160px; }
+        .attach-opt-btn { padding: 10px 14px; border: none; background: transparent; text-align: left; font-size: 0.9rem; font-weight: 600; cursor: pointer; border-radius: 8px; display: flex; align-items: center; gap: 10px; }
+        .attach-opt-btn:hover { background: #f1f5f9; color: var(--primary); }
+        #chatFileInputImage, #chatFileInputDoc { display: none; }
+
+        .input-text-field { flex: 1; background: #f1f5f9; border: none; padding: 14px 20px; border-radius: 12px; color: var(--text-dark); font-size: 0.95rem; outline: none; }
+        .btn-send-message { background: var(--primary); color: white; border: none; width: 46px; height: 46px; border-radius: 12px; font-size: 1.1rem; cursor: pointer; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 10px rgba(0, 188, 255, 0.3); }
+
+        /* ================= 🚨 UPGRADED: CUSTOM ALERT MODAL LAYOUT ================= */
+        .custom-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.3); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: flex-start; padding-top: 50px; z-index: 2000; }
+        .custom-modal { background: #ffffff; border: 1px solid var(--border-color); border-radius: 20px; padding: 25px 30px; max-width: 400px; width: 90%; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12); text-align: center; transform: translateY(-150px); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .custom-modal.active { transform: translateY(0); }
+        .modal-header-layout { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px; }
+        .modal-icon { font-size: 1.8rem; }
+        .modal-title { font-size: 1.25rem; font-weight: 800; color: var(--text-dark); }
+        .modal-msg { font-size: 0.95rem; color: var(--text-light); line-height: 1.5; margin-bottom: 20px; }
+        
+        .modal-input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border-color); background: #f8fafc; outline: none; margin-bottom: 15px; font-size: 0.95rem; }
+        .modal-btn-group { display: flex; gap: 10px; }
+        .btn-modal-action { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 700; cursor: pointer; flex: 1; }
+        .btn-modal-cancel { background: #e2e8f0; color: var(--text-dark); border: none; padding: 12px; border-radius: 10px; font-weight: 700; cursor: pointer; flex: 1; }
+
+        /* PREVIEW IMAGE WITH CAPTION OVERLAY BOX */
+        #captionPreviewImg { max-width: 100%; max-height: 160px; object-fit: contain; border-radius: 8px; margin-bottom: 12px; border: 1px solid var(--border-color); }
+
+        @media (max-width: 768px) {
+            .sidebar { width: 100%; }
+            .main-chat { display: none; width: 100%; position: absolute; top: 0; left: 0; z-index: 15; }
+            .back-arrow { display: block; }
+            .app-container.chat-active .sidebar { display: none; }
+            .app-container.chat-active .main-chat { display: flex; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container" id="appWrapper">
+        
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="setting.html" class="user-profile-trigger" style="text-decoration: none; color: inherit;">
+                    <div class="user-avatar" id="myAvatarBox">N</div>
+                    <div style="text-align: left;">
+                        <div style="font-weight: 800; font-size: 0.9rem;" id="myProfileName">Loading...</div>
+                        <div style="font-size: 0.72rem; color: var(--text-light);" id="myProfileStatus">Available</div>
+                    </div>
+                </a>
+                <div class="sidebar-actions">
+                    <a href="add.html" class="circle-btn" title="Add Contact">➕</a>
+                    <button class="circle-btn" onclick="openInviteModal()" title="Invite Friend">✉️</button>
+                    <button class="circle-btn" onclick="window.location.href='setting.html'" title="Settings">⚙️</button>
+                </div>
+            </div>
+
+            <div class="search-box-container">
+                <input type="text" class="search-input" placeholder="Search contacts or rooms...">
+            </div>
+
+            <div class="chat-list" id="contactsFeedBox">
+                </div>
+        </aside>
+
+        <main class="main-chat">
+            
+            <div class="chat-blank-state" id="blankStateScreen">
+                <div class="blank-icon">⚡</div>
+                <h3 style="font-weight: 800; font-size: 1.4rem; margin-bottom: 5px;">Nexus Secure Corridor</h3>
+                <p style="color: var(--text-light); font-size: 0.9rem;">Select a contact corridor or build a link to begin live streaming asset codes.</p>
+            </div>
+
+            <div class="chat-header">
+                <span class="back-arrow" onclick="closeActiveChatRoomMobile()">←</span>
+                <div class="user-avatar" id="activeChatAvatar">C</div>
+                <div class="active-user-info">
+                    <div class="active-user-name" id="activeChatName">Friend Name</div>
+                    <div class="active-user-status" id="activeChatStatus">Active Now</div>
+                </div>
+            </div>
+
+            <div class="chat-messages-area" id="conversationStreamBox">
+                </div>
+
+            <div class="chat-input-dock">
+                <span class="file-menu-trigger" onclick="toggleAttachmentMenu()" title="Attach Element">📎</span>
+                
+                <div class="attachment-options-box" id="attachmentMenuBox">
+                    <button class="attach-opt-btn" onclick="triggerFileSelect('chatFileInputImage')">🖼️ Send Image</button>
+                    <button class="attach-opt-btn" onclick="triggerFileSelect('chatFileInputDoc')">📄 Send Document</button>
+                </div>
+
+                <input type="file" id="chatFileInputImage" accept="image/*" onchange="processFileSelection(this, 'image')">
+                <input type="file" id="chatFileInputDoc" accept=".pdf,.doc,.docx,.xls,.xlsx,.txt" onchange="processFileSelection(this, 'doc')">
+                
+                <input type="text" class="input-text-field" id="chatInputField" placeholder="Type your message here...">
+                <button class="btn-send-message" onclick="transmitChatMessageNode()">➔</button>
+            </div>
+        </main>
+    </div>
+
+    <div class="custom-modal-overlay" id="systemAlertOverlay">
+        <div class="custom-modal" id="systemAlertBox">
+            <div class="modal-header-layout"><div class="modal-icon" id="sysIcon">💡</div><div class="modal-title" id="sysTitle">Notification</div></div>
+            <div class="modal-msg" id="sysMessage">Message template placeholder.</div>
+            <button class="btn-modal-close" onclick="closeSystemAlert()">Got It</button>
+        </div>
+    </div>
+
+    <div class="custom-modal-overlay" id="imageCaptionOverlay">
+        <div class="custom-modal" id="imageCaptionBox">
+            <div class="modal-header-layout"><div class="modal-icon">🖼️</div><div class="modal-title">Send Image</div></div>
+            <img id="captionPreviewImg" src="" alt="Preview">
+            <input type="text" class="modal-input" id="imageCaptionInputField" placeholder="Add a caption description message...">
+            <div class="modal-btn-group">
+                <button class="btn-modal-action" onclick="sendCapturedFileWithCaptionNode()">Send Now 🚀</button>
+                <button class="btn-modal-cancel" onclick="closeCaptionModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="custom-modal-overlay" id="inviteFriendOverlay">
+        <div class="custom-modal" id="inviteFriendBox">
+            <div class="modal-header-layout"><div class="modal-icon">✉️</div><div class="modal-title">Invite to Nexus Chat</div></div>
+            <p class="modal-msg">Share this application link with your friends to bring them into the corridor.</p>
+            <input type="text" class="modal-input" id="inviteLinkField" readonly value="https://amanhotdev.github.io/nexuschat/login.html">
+            <div class="modal-btn-group">
+                <button class="btn-modal-action" onclick="copyInviteLinkNode()">Copy Link 📋</button>
+                <button class="btn-modal-cancel" onclick="closeInviteModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBdyln75P_abb8FBZb7J_1JNlDZ39k5oIQ",
+            authDomain: "nexus-27b3d.firebaseapp.com",
+            projectId: "nexus-27b3d",
+            storageBucket: "nexus-27b3d.firebasestorage.app",
+            messagingSenderId: "567788799617",
+            appId: "1:567788799617:web:352644dadfbde5732eaf80"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        let currentUser = null;
+        let activeChatTarget = null;
+        let unsubscribeMessagesListener = null;
+
+        // Caption Buffer Parameters
+        let globalSelectedFileData = null;
+        let globalSelectedFileName = "";
+        let globalSelectedFileType = "";
+
+        function triggerAlert(title, message, icon = "💡") {
+            document.getElementById('sysTitle').innerText = title;
+            document.getElementById('sysMessage').innerText = message;
+            document.getElementById('sysIcon').innerText = icon;
+            document.getElementById('systemAlertOverlay').style.display = "flex";
+            setTimeout(() => document.getElementById('systemAlertBox').classList.add('active'), 10);
+        }
+        function closeSystemAlert() {
+            document.getElementById('systemAlertBox').classList.remove('active');
+            setTimeout(() => document.getElementById('systemAlertOverlay').style.display = "none", 200);
+        }
+
+        function toggleAttachmentMenu() {
+            const menu = document.getElementById('attachmentMenuBox');
+            menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+        }
+        function triggerFileSelect(id) {
+            document.getElementById(id).click();
+            document.getElementById('attachmentMenuBox').style.display = "none";
+        }
+
+        function openInviteModal() {
+            document.getElementById('inviteFriendOverlay').style.display = "flex";
+            setTimeout(() => document.getElementById('inviteFriendBox').classList.add('active'), 10);
+        }
+        function closeInviteModal() {
+            document.getElementById('inviteFriendBox').classList.remove('active');
+            setTimeout(() => document.getElementById('inviteFriendOverlay').style.display = "none", 200);
+        }
+        function copyInviteLinkNode() {
+            const linkField = document.getElementById('inviteLinkField');
+            linkField.select();
+            document.execCommand('copy');
+            closeInviteModal();
+            triggerAlert("Copied!", "Invite Link copied onto clipboard device configuration.", "✅");
+        }
+
+        function closeCaptionModal() {
+            document.getElementById('imageCaptionBox').classList.remove('active');
+            setTimeout(() => document.getElementById('imageCaptionOverlay').style.display = "none", 200);
+            clearFileBuffer();
+        }
+        function clearFileBuffer() {
+            globalSelectedFileData = null; globalSelectedFileName = ""; globalSelectedFileType = "";
+            document.getElementById('chatFileInputImage').value = "";
+            document.getElementById('chatFileInputDoc').value = "";
+            document.getElementById('imageCaptionInputField').value = "";
+        }
+
+        function closeActiveChatRoomMobile() { document.getElementById('appWrapper').classList.remove('chat-active'); }
+
+        auth.onAuthStateChanged(async (user) => {
+            if (!user) { window.location.href = "login.html"; } 
+            else { currentUser = user; setupUserProfileMatrixData(); listenToMyContactsListStream(); }
+        });
+
+        async function setupUserProfileMatrixData() {
+            const userRef = db.collection("users").doc(currentUser.uid);
+            const doc = await userRef.get();
+            const defaultName = currentUser.displayName || currentUser.email.split('@')[0];
+            if (!doc.exists) { await userRef.set({ uid: currentUser.uid, email: currentUser.email, name: defaultName, status: "Available" }); }
+            
+            userRef.onSnapshot((snapshot) => {
+                if(snapshot.exists) {
+                    const data = snapshot.data();
+                    document.getElementById('myProfileName').innerText = data.name;
+                    document.getElementById('myProfileStatus').innerText = data.status;
+                    document.getElementById('myAvatarBox').innerText = data.name.charAt(0).toUpperCase();
+                }
+            });
+        }
+
+        function listenToMyContactsListStream() {
+            db.collection("users").doc(currentUser.uid).collection("contacts").onSnapshot((snapshot) => {
+                const listContainer = document.getElementById('contactsFeedBox');
+                listContainer.innerHTML = "";
+                if(snapshot.empty) { listContainer.innerHTML = `<p style="padding: 20px; text-align: center; font-size: 0.85rem; color: var(--text-light);">Click the (+) button above to append friend elements.</p>`; }
+
+                snapshot.forEach(async (doc) => {
+                    db.collection("users").doc(doc.id).onSnapshot((userDoc) => {
+                        if(userDoc.exists) { updateOrCreateContactUiItemElement(userDoc.data()); }
+                    });
+                });
+            });
+        }
+
+        function updateOrCreateContactUiItemElement(userData) {
+            const container = document.getElementById('contactsFeedBox');
+            let item = document.getElementById(`item-${userData.uid}`);
+            const markup = `<div class="user-avatar">${userData.name.charAt(0).toUpperCase()}</div><div class="chat-item-details"><div class="chat-item-header"><div class="chat-item-name">${userData.name}</div></div><div class="chat-item-sub"><div class="chat-item-msg">${userData.status}</div></div></div>`;
+            if (item) { item.innerHTML = markup; } 
+            else {
+                item = document.createElement('div'); item.id = `item-${userData.uid}`; item.className = "chat-item"; item.innerHTML = markup;
+                item.onclick = () => selectActiveChatCorridor(userData); container.appendChild(item);
+            }
+        }
+
+        function selectActiveChatCorridor(targetUser) {
+            activeChatTarget = targetUser;
+            document.querySelectorAll('.chat-item').forEach(el => el.classList.remove('active'));
+            const selectedItem = document.getElementById(`item-${targetUser.uid}`);
+            if(selectedItem) selectedItem.classList.add('active');
+
+            document.getElementById('activeChatName').innerText = targetUser.name;
+            document.getElementById('activeChatStatus').innerText = targetUser.status;
+            document.getElementById('activeChatAvatar').innerText = targetUser.name.charAt(0).toUpperCase();
+            document.getElementById('blankStateScreen').style.display = "none";
+            document.getElementById('appWrapper').classList.add('chat-active');
+            loadConversationsRealtimeMessagesStream();
+        }
+
+        function loadConversationsRealtimeMessagesStream() {
+            if(unsubscribeMessagesListener) unsubscribeMessagesListener();
+            const roomSignatureTokenId = [currentUser.uid, activeChatTarget.uid].sort().join("_");
+            
+            unsubscribeMessagesListener = db.collection("rooms").doc(roomSignatureTokenId).collection("messages")
+                .orderBy("timestamp", "asc")
+                .onSnapshot((snapshot) => {
+                    const msgArea = document.getElementById('conversationStreamBox');
+                    msgArea.innerHTML = "";
+
+                    snapshot.forEach((doc) => {
+                        const msgData = doc.data();
+                        const isOutgoing = msgData.senderId === currentUser.uid;
+                        if(!isOutgoing && !msgData.read) { doc.ref.update({ read: true }); }
+
+                        let attachmentBlockMarkup = "";
+                        if(msgData.fileData) {
+                            if(msgData.fileType && msgData.fileType.startsWith("image/")) {
+                                attachmentBlockMarkup = `<div style="margin-top:8px;"><img src="${msgData.fileData}" style="max-width:100%; max-height:200px; border-radius:10px; display:block; box-shadow:0 2px 8px rgba(0,0,0,0.1);"></div>`;
+                            } else {
+                                attachmentBlockMarkup = `<a href="${msgData.fileData}" download="${msgData.fileName}" class="file-attachment-bubble">📄 ${msgData.fileName}</a>`;
+                            }
+                        }
+
+                        const timeString = msgData.timestamp ? new Date(msgData.timestamp.toDate()).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : "...";
+                        let ticksHtml = isOutgoing ? `<span class="nexus-ticks ${msgData.read ? 'delivered' : ''}">✓✓</span>` : "";
+
+                        const messageRowHtml = `<div class="msg-container ${isOutgoing ? 'outgoing' : 'incoming'}"><div class="msg-bubble"><div>${msgData.text}</div>${attachmentBlockMarkup}<div class="msg-meta">${timeString} ${ticksHtml}</div></div></div>`;
+                        msgArea.innerHTML += messageRowHtml;
+                    });
+                    msgArea.scrollTop = msgArea.scrollHeight;
+                });
+        }
+
+        async function transmitChatMessageNode() {
+            const inputField = document.getElementById('chatInputField');
+            const plainText = inputField.value.trim();
+            if(plainText === "" || !activeChatTarget) return;
+
+            inputField.value = "";
+            const roomSignatureTokenId = [currentUser.uid, activeChatTarget.uid].sort().join("_");
+            await db.collection("rooms").doc(roomSignatureTokenId).collection("messages").add({
+                senderId: currentUser.uid, text: plainText, read: false, timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+        }
+
+        document.getElementById('chatInputField').addEventListener('keypress', function(e) { if(e.key === 'Enter') transmitChatMessageNode(); });
+
+        /* 📁 CORE FILE MATRIX PARSER AND CAPTION INTERCEPT ENGINE */
+        function processFileSelection(element, filterType) {
+            const assetFile = element.files[0];
+            if(!assetFile || !activeChatTarget || !currentUser) return;
+
+            if(assetFile.size > 1024 * 1024) {
+                triggerAlert("File Too Large", "Please select an element package smaller than 1MB.", "⚠️");
+                element.value = ""; return;
+            }
+
+            const fileReader = new FileReader();
+            fileReader.onload = function(e) {
+                globalSelectedFileData = e.target.result;
+                globalSelectedFileName = assetFile.name;
+                globalSelectedFileType = assetFile.type;
+
+                if(filterType === 'image') {
+                    // ओपन इमेज विथ कैप्शन बॉक्स
+                    document.getElementById('captionPreviewImg').src = globalSelectedFileData;
+                    document.getElementById('imageCaptionOverlay').style.display = "flex";
+                    setTimeout(() => document.getElementById('imageCaptionBox').classList.add('active'), 10);
+                } else {
+                    // डायरेक्ट डाक्यूमेंट्स भेजें
+                    sendCapturedFileWithCaptionNode("");
+                }
+            };
+            fileReader.readAsDataURL(assetFile);
+        }
+
+        async function sendCapturedFileWithCaptionNode() {
+            if(!globalSelectedFileData) return;
+            let customCaptionText = document.getElementById('imageCaptionInputField').value.trim();
+            
+            if(customCaptionText === "" && globalSelectedFileType.startsWith("image/")) {
+                customCaptionText = `Shared an asset image element: ${globalSelectedFileName}`;
+            } else if (customCaptionText === "") {
+                customCaptionText = `Shared a document element: ${globalSelectedFileName}`;
+            }
+
+            const roomSignatureTokenId = [currentUser.uid, activeChatTarget.uid].sort().join("_");
+            try {
+                await db.collection("rooms").doc(roomSignatureTokenId).collection("messages").add({
+                    senderId: currentUser.uid,
+                    text: customCaptionText,
+                    fileData: globalSelectedFileData,
+                    fileName: globalSelectedFileName,
+                    fileType: globalSelectedFileType,
+                    read: false,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                if(document.getElementById('imageCaptionOverlay').style.display === "flex") { closeCaptionModal(); }
+                else { clearFileBuffer(); }
+            } catch (err) {
+                triggerAlert("Error", "Transmission link failed.", "❌");
+            }
+        }
+    </script>
+</body>
+</html>

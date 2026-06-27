@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nexus Chat | Add Contact 👥</title>
+    <style>
+        /* ================= 🌌 NEXUS ADD CONTACT LIGHT MODERN THEME ================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        
+        :root {
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            --primary: #00bcff;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border-color: rgba(0, 188, 255, 0.15);
+        }
+
+        body { background: var(--bg-gradient); color: var(--text-dark); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+
+        .chat-nav { background: #ffffff; padding: 15px 6%; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+        .chat-nav-brand { font-weight: 800; font-size: 1.3rem; text-decoration: none; color: var(--text-dark); }
+        .chat-nav-brand span { color: var(--primary); }
+        .btn-back-chat { text-decoration: none; color: var(--text-light); font-weight: 700; font-size: 0.95rem; transition: 0.3s; display: flex; align-items: center; gap: 5px; }
+        .btn-back-chat:hover { color: var(--primary); }
+
+        .add-container { flex: 1; display: flex; justify-content: center; align-items: center; padding: 30px 5%; }
+        .add-card { background: var(--card-bg); border: 1px solid var(--border-color); padding: 40px 30px; border-radius: 24px; max-width: 420px; width: 100%; box-shadow: 0 20px 40px rgba(0,0,0,0.05); text-align: center; }
+        .add-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 8px; }
+        .add-subtitle { color: var(--text-light); font-size: 0.9rem; margin-bottom: 30px; font-weight: 600; }
+
+        .input-group { margin-bottom: 22px; text-align: left; }
+        .input-group label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--text-light); margin-bottom: 6px; letter-spacing: 0.5px; }
+        .input-group input { width: 100%; background: #ffffff; border: 1px solid #e2e8f0; padding: 13px 16px; border-radius: 10px; color: var(--text-dark); font-size: 0.95rem; outline: none; transition: 0.2s; }
+        .input-group input:focus { border-color: var(--primary); box-shadow: 0 0 8px rgba(0, 188, 255, 0.1); }
+        
+        .btn-submit-add { width: 100%; background: linear-gradient(135deg, var(--primary) 0%, #0077ff 100%); color: white; border: none; padding: 14px; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 6px 15px rgba(0, 188, 255, 0.2); transition: 0.2s; }
+        .btn-submit-add:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(0, 188, 255, 0.35); }
+
+        /* ================= 🚨 TOP DROP CUSTOM NOTIFICATION POPUP ================= */
+        .custom-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.3); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: flex-start; padding-top: 50px; z-index: 2000; }
+        .custom-modal { background: #ffffff; border: 1px solid var(--border-color); border-radius: 20px; padding: 25px 30px; max-width: 425px; width: 90%; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12); text-align: center; transform: translateY(-150px); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .custom-modal.active { transform: translateY(0); }
+        .modal-header-layout { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px; }
+        .modal-icon { font-size: 1.8rem; }
+        .modal-title { font-size: 1.25rem; font-weight: 800; color: var(--text-dark); }
+        .modal-msg { font-size: 0.95rem; color: var(--text-light); line-height: 1.5; margin-bottom: 20px; word-break: break-word; }
+        .btn-modal-close { background: var(--primary); color: white; border: none; padding: 10px 25px; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.2s; width: 100%; }
+        .btn-modal-close:hover { background: #0077ff; }
+
+        footer { width: 100%; text-align: center; padding: 25px; color: var(--text-light); font-size: 0.9rem; border-top: 1px solid #e4e8f0; background: #f8fafc; font-weight: 600; margin-top: auto; }
+        @media (max-width: 500px) { .add-card { padding: 30px 20px; border: none; box-shadow: none; background: transparent; } }
+    </style>
+</head>
+<body>
+
+    <!-- 📡 NAVIGATION HEADER WITH BACK TO CHAT LINK -->
+    <nav class="chat-nav">
+        <a href="nexuschat.html" class="btn-back-chat">← Back to Chat</a>
+        <div class="chat-nav-brand">Nexus<span>Chat</span></div>
+        <div style="width: 90px;"></div> <!-- Spacing Balance -->
+    </nav>
+
+    <!-- 👥 ADD CONTACT FORM CONTAINER -->
+    <div class="add-container">
+        <div class="add-card">
+            <h2 class="add-title">Add Friend</h2>
+            <p class="add-subtitle">Add a friend to your chat corridor</p>
+
+            <form id="addContactForm">
+                <div class="input-group">
+                    <label>FRIEND'S EMAIL ADDRESS</label>
+                    <input type="email" id="contactEmail" placeholder="friend@email.com" required>
+                </div>
+
+                <button type="submit" class="btn-submit-add">Add to Network 🚀</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 🚨 TOP-DROPPING DYNAMIC ALERT POPUP -->
+    <div class="custom-modal-overlay" id="alertModalOverlay">
+        <div class="custom-modal" id="alertModal">
+            <div class="modal-header-layout">
+                <div class="modal-icon" id="customModalIcon">💡</div>
+                <div class="modal-title" id="customModalTitle">Notification</div>
+            </div>
+            <div class="modal-msg" id="customModalMessage">System message logs.</div>
+            <button class="btn-modal-close" id="modalCloseBtn" onclick="closeCustomAlert()">Got It</button>
+        </div>
+    </div>
+
+    <footer>&copy; 2026 Nexus Systems. Engineered by AmanHotDev.</footer>
+
+    <!-- 🧠 FIREBASE BACKEND INTEGRATION COMPAT SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // आपके असली प्रोजेक्ट का Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyBdyln75P_abb8FBZb7J_1JNlDZ39k5oIQ",
+            authDomain: "nexus-27b3d.firebaseapp.com",
+            projectId: "nexus-27b3d",
+            storageBucket: "nexus-27b3d.firebasestorage.app",
+            messagingSenderId: "567788799617",
+            appId: "1:567788799617:web:352644dadfbde5732eaf80"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        let currentUser = null;
+        let shouldRedirectOnClose = false;
+
+        // 🚨 TOP-DROPPING CUSTOM POPUP ALERTS
+        function showCustomAlert(title, message, icon = "💡", redirect = false) {
+            document.getElementById('customModalTitle').innerText = title;
+            document.getElementById('customModalMessage').innerText = message;
+            document.getElementById('customModalIcon').innerText = icon;
+            shouldRedirectOnClose = redirect;
+            
+            const overlay = document.getElementById('alertModalOverlay');
+            overlay.style.display = "flex";
+            setTimeout(() => document.getElementById('alertModal').classList.add('active'), 10);
+        }
+
+        function closeCustomAlert() {
+            document.getElementById('alertModal').classList.remove('active');
+            setTimeout(() => {
+                document.getElementById('alertModalOverlay').style.display = "none";
+                if(shouldRedirectOnClose) {
+                    window.location.href = "nexuschat.html";
+                }
+            }, 300);
+        }
+
+        // सुरक्षा के लिए चेक करें कि यूजर लॉग इन है या नहीं
+        auth.onAuthStateChanged((user) => {
+            if (!user) {
+                window.location.href = "login.html";
+            } else {
+                currentUser = user;
+            }
+        });
+
+        // 👥 ADD CONTACT OPERATIONS LOGIC
+        document.getElementById('addContactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const emailTarget = document.getElementById('contactEmail').value.trim().toLowerCase();
+
+            if (!currentUser) {
+                showCustomAlert("Session Error", "No active user session detected.", "❌");
+                return;
+            }
+
+            if (emailTarget === currentUser.email) {
+                showCustomAlert("Operation Denied", "You cannot add your own email address.", "⚠️");
+                return;
+            }
+
+            try {
+                // 1. चेक करें कि सामने वाला यूजर फायरबेस डेटाबेस में रजिस्टर है या नहीं
+                const userSnap = await db.collection("users").where("email", "==", emailTarget).get();
+                
+                if (userSnap.empty) {
+                    showCustomAlert("User Not Found", "No registered user found with this email address.", "⚠️");
+                    return;
+                }
+
+                const targetUserData = userSnap.docs[0].data();
+
+                // 2. सामने वाले को आपकी पर्सनल 'contacts' लिस्ट में सुरक्षित रूप से जोड़ें
+                await db.collection("users").doc(currentUser.uid).collection("contacts").doc(targetUserData.uid).set({
+                    uid: targetUserData.uid,
+                    addedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                // सफलता का मैसेज ऊपर से ड्रॉप होगा और क्लोज करते ही चैट रूम पर भेज देगा
+                showCustomAlert("Friend Added!", `${targetUserData.name} has been added to your chat corridor successfully.`, "✅", true);
+
+            } catch (error) {
+                showCustomAlert("Pipeline Failure", error.message, "❌");
+            }
+        });
+    </script>
+</body>
+</html>
