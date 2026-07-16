@@ -42,6 +42,13 @@ A customized micro-state tracking logic built into the transmission bubble. As s
 
 # ================================================================================
 VIEWPORT RESPONSIVE ENGINEERING
+<img width="1919" height="904" alt="Screenshot 2026-07-16 090503" src="https://github.com/user-attachments/assets/4ece7752-87fe-4fad-8f25-1ab53f72fb96" />
+<img width="1900" height="900" alt="Screenshot 2026-07-16 090443" src="https://github.com/user-attachments/assets/4b4b7093-e9af-4f8d-b9c1-c7d19880b0a2" />
+<img width="1919" height="904" alt="Screenshot 2026-07-16 090043" src="https://github.com/user-attachments/assets/3c1a0f18-7568-4262-a63b-458456282f83" />
+<img width="1896" height="911" alt="Screenshot 2026-07-16 012819" src="https://github.com/user-attachments/assets/b30815ae-73f1-42ea-8569-c471e16c3073" />
+<img width="1876" height="916" alt="Screenshot 2026-07-16 012649" src="https://github.com/user-attachments/assets/d72e9c74-dd57-4660-b01a-92dee9836941" />
+<img width="1918" height="908" alt="Screenshot 2026-07-16 090516" src="https://github.com/user-attachments/assets/e919b0f2-ef44-455a-b7db-f5d581ffa188" />  
+
 
 The entire application features absolute adaptive UI scaling. By deploying flexible CSS viewport pipelines, smart glassmorphic cards, and auto-scrolling matrix layers, the structural grid transitions seamlessly from ultra-wide desktop monitors down to compact mobile touchscreens with zero breaking points or text overlaps.
 
